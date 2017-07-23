@@ -12,8 +12,6 @@ storage = colored yellow (solidRectangle 1 1)
 box :: Picture
 box = (colored black (solidCircle 0.25)) & (colored yellow (solidRectangle 1 1))
 
-empty :: Picture
-empty = rectangle 1 1
 
 drawTile :: Integer -> Picture
 drawTile x
@@ -36,18 +34,18 @@ drawrow :: Integer -> Integer -> Picture
 drawrow numtiles rownum
   | numtiles == 0 = drawTile (maze 0 rownum )
   | otherwise = ((translated (fromIntegral (-numtiles)) 0 (drawTile (maze (-numtiles) rownum))) & 
-  				 (drawrow (numtiles-1) rownum) & 
-  				 (translated (fromIntegral numtiles) 0 (drawTile (maze numtiles rownum))))
+           (drawrow (numtiles-1) rownum) & 
+           (translated (fromIntegral numtiles) 0 (drawTile (maze numtiles rownum))))
 
 drawMaze :: Integer -> Picture
 drawMaze rownum
   | rownum == 0 = drawrow 10 0
   | otherwise = ((translated 0 (fromIntegral (-rownum)) (drawrow 10 (-rownum))) & 
-  				 (drawMaze (rownum-1)) & 
-  				 (translated 0 (fromIntegral rownum) (drawrow 10 rownum)))
+           (drawMaze (rownum-1)) & 
+           (translated 0 (fromIntegral rownum) (drawrow 10 rownum)))
                  
---pictureOfMaze :: Picture
---pictureOfMaze
+pictureOfMaze :: Picture
+pictureOfMaze = drawMaze 10
 
 main :: IO ()
-main = drawingOf (drawMaze 10)
+main = drawingOf pictureOfMaze
