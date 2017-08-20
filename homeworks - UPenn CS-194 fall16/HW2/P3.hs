@@ -4,7 +4,7 @@ import CodeWorld
 wall, ground, storage, box :: Picture
 wall =    colored (grey 0.4) (solidRectangle 1 1)
 ground =  colored yellow     (solidRectangle 1 1)
-storage = solidCircle 0.3 & ground
+storage = colored white (solidCircle 0.3) & ground
 box =     colored brown      (solidRectangle 1 1)
 
 drawTile :: Integer -> Picture
@@ -43,11 +43,32 @@ data Coord = C Integer Integer
 data State = S Coord Direction
 
 
-player2 :: State -> Picture 
-player2 (S _ R)= colored white (solidRectangle 1 1)
-player2 (S _ U)= colored green (solidRectangle 1 1)
-player2 (S _ L)= colored blue (solidRectangle 1 1)
-player2 (S _ D)= colored red (solidRectangle 1 1)
+player2 :: State -> Picture
+player2 (S c R) = translated 0 0.3 cranium
+          & path [(0,0),(0.3,0.05)] 
+          & path [(0,0),(0.3,-0.05)] 
+          & path [(0,-0.2),(0,0.1)] 
+          & path [(0,-0.2),(0.1,-0.5)]
+          & path [(0,-0.2),(-0.1,-0.5)]
+  where cranium = circle 0.18
+                & sector (7/6*pi) (1/6*pi) 0.18
+player2 (S c L) = scaled (-1) 1 (player2 (S c R)) -- Cunning!
+player2 (S c U) = translated 0 0.3 cranium
+          & path [(0,0),(0.3,0.05)] 
+          & path [(0,0),(-0.3,0.05)] 
+          & path [(0,-0.2),(0,0.1)] 
+          & path [(0,-0.2),(0.1,-0.5)]
+          & path [(0,-0.2),(-0.1,-0.5)]
+  where cranium = solidCircle 0.18
+player2 (S c D) = translated 0 0.3 cranium
+          & path [(0,0),(0.3,-0.05)] 
+          & path [(0,0),(-0.3,-0.05)] 
+          & path [(0,-0.2),(0,0.1)] 
+          & path [(0,-0.2),(0.1,-0.5)]
+          & path [(0,-0.2),(-0.1,-0.5)]
+  where cranium = circle 0.18
+                & translated   0.06  0.08 (solidCircle 0.04)
+                & translated (-0.06) 0.08 (solidCircle 0.04)
   
 
 
