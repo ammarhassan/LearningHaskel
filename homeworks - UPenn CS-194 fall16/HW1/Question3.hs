@@ -4,13 +4,13 @@ wall:: Picture
 wall = colored black (solidRectangle 1 1)
 
 ground :: Picture
-ground = colored azure (solidRectangle 1 1)
+ground = colored green (solidRectangle 1 1)
 
 storage :: Picture
-storage = colored yellow (solidRectangle 1 1)
+storage = (colored black (solidCircle 0.25)) & (colored yellow (solidRectangle 1 1))
 
 box :: Picture
-box = (colored black (solidCircle 0.25)) & (colored yellow (solidRectangle 1 1))
+box = colored yellow (solidRectangle 1 1)
 
 
 drawTile :: Integer -> Picture
